@@ -71,15 +71,8 @@ client.on("ready", async () => {
 });
 
 // Monitoramento de mensagens (todas para teste)
-client.on("message", async (msg) => {
-	if (msg.isGroup) {
-		const chat = await msg.getChat();
-		console.log(`
-        Grupo: ${chat.name}
-        ID: ${chat.id._serialized}
-        Mensagem: ${msg.body}
-        `);
-	}
+client.on("message_create", async (msg) => {
+	processMessage(msg);
 });
 
 // Inicialização com tratamento de erro
@@ -96,3 +89,29 @@ process.on("uncaughtException", (err) => {
 process.on("unhandledRejection", (err) => {
 	console.log("Promise rejection não tratada:", err);
 });
+
+function isGroupMessage(message) {
+	return message._data.to.includes('@g.us') || message._data.id.remote.includes('@g.us');
+}
+  
+function processMessage(message) {
+    const { _data } = message;
+
+    // Verifica se a mensagem é de um grupo
+    const isGroupMessage = _data.to.endsWith("@g.us");
+
+    if (isGroupMessage) {
+        const groupId = _data.to; // ID do grupo
+        const messageText = _data.body; // Texto da mensagem
+        const sender = _data.author || _data.from; // Quem enviou a mensagem no grupo
+
+        console.log("Mensagem de grupo recebida!");
+        console.log("ID do Grupo:", groupId);
+        console.log("Mensagem:", messageText);
+        console.log("Enviado por:", sender);
+    } else {
+        console.log("Mensagem privada recebida.");
+		console.log("De:", _data.from);
+		console.log("Mensagem:", _data.body);
+    }
+}
