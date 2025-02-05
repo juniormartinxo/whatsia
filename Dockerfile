@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:22.13.1-alpine3.19
+FROM node:22.13.1-alpine3.20
 
 # Instala as dependências necessárias
 RUN apk update && apk add --no-cache \
