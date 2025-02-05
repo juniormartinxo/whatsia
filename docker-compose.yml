@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: whatsapp-bot
+    container_name: whatsia
     restart: unless-stopped
     volumes:
       - ./.wwebjs_auth:/usr/src/app/.wwebjs_auth
@@ -9,8 +9,8 @@ services:
     environment:
       - TZ=America/Sao_Paulo
     networks:
-      - bot-network
+      - whatsia-network
 
 networks:
-  bot-network:
+  whatsia-network:
     driver: bridge
