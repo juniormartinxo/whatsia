@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    container_name: whatsapp-bot
+    restart: unless-stopped
+    volumes:
+      - ./.wwebjs_auth:/usr/src/app/.wwebjs_auth
+      - ./.wwebjs_cache:/usr/src/app/.wwebjs_cache
+    environment:
+      - TZ=America/Sao_Paulo
+    networks:
+      - bot-network
+
+networks:
+  bot-network:
+    driver: bridge
